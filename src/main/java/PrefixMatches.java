@@ -1,5 +1,6 @@
 
 public class PrefixMatches {
+	@SuppressWarnings("unused")
 	private Trie trie;
 	
 	/**
