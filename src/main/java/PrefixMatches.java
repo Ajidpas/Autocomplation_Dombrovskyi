@@ -31,7 +31,7 @@ public class PrefixMatches {
 			allWords.addAll(Arrays.asList(words));
 		}
 		for (String word : allWords) {
-			if (!trie.contains(word)) {
+			if (!word.isEmpty() && !trie.contains(word)) {
 				Tuple tuple = new Tuple(word, word.length());
 				trie.add(tuple);
 				size++;
