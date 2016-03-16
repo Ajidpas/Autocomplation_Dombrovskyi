@@ -1,7 +1,20 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Queue;
 
 public class PrefixMatches {
-	@SuppressWarnings("unused")
+	
+	/** trie object */
 	private Trie trie;
+	
+	/**
+	 * Constructor
+	 */
+	public PrefixMatches() {
+		trie = new RWayTrie();
+	}
 	
 	/**
 	 * In-memory vocabulary creation
@@ -11,7 +24,20 @@ public class PrefixMatches {
 	 * @return words count
 	 */
 	public int add(String... strings) {
-		throw new UnsupportedOperationException();
+		int size = 0;
+		List<String> allWords = new ArrayList<String>();
+		for (String string : strings) {
+			String[] words = string.split(" ");
+			allWords.addAll(Arrays.asList(words));
+		}
+		for (String word : allWords) {
+			if (!trie.contains(word)) {
+				Tuple tuple = new Tuple(word, word.length());
+				trie.add(tuple);
+				size++;
+			}
+		}
+		return size;
 	}
 	
 	/**
@@ -20,7 +46,7 @@ public class PrefixMatches {
 	 * @return true and false in the corresponding case
 	 */
 	public boolean contains(String word) {
-		throw new UnsupportedOperationException();
+		return trie.contains(word);
 	}
 	
 	/**
@@ -29,7 +55,7 @@ public class PrefixMatches {
 	 * @return true and false in corresponding case off success or failure 
 	 */
 	public boolean delete(String word) {
-		throw new UnsupportedOperationException();
+		return trie.delete(word);
 	}
 	
 	/**
@@ -38,30 +64,38 @@ public class PrefixMatches {
 	 * @return integer value of the number of the words
 	 */
 	public int size() {
-		throw new UnsupportedOperationException();
+		return trie.size();
 	}
 	
 	/**
 	 * If inputed pref is longer or equals 2, returns array of words with k different lengths 
 	 * begin from minimum and start from given pref. 
 	 * 
-	 * @param pref
-	 * @param k
-	 * @return
+	 * @param pref prefix
+	 * @param k length distinguish 
+	 * @return all matched words
 	 */
 	public Iterable<String> wordsWithPrefix(String pref, int k) {
-		throw new UnsupportedOperationException();
+		Queue<String> words = (Queue<String>) trie.wordWithPrefix(pref);
+		Iterator<String> it = words.iterator();
+		while (it.hasNext()) {
+			String word = (String) it.next();
+			if (word.length() > pref.length() + k - 1) {
+				it.remove();
+			}
+		}
+		return words;
 	}
 	
 	/**
 	 * If inputed pref is longer then 2 symbols, returns set of words with different lengths k=3 
 	 * start from minimum that begin from pref
 	 * 
-	 * @param perf
-	 * @return
+	 * @param perf prefix for matching
+	 * @return queue of matched words 
 	 */
-	public Iterable<String> wordsWithPrefix(String perf) {
-		throw new UnsupportedOperationException();
+	public Iterable<String> wordsWithPrefix(String pref) {
+		return wordsWithPrefix(pref, 3);
 	}
 
 }
