@@ -6,6 +6,9 @@ import org.junit.Test;
 
 public class RWayTrieTest {
 
+	/**
+	 * Tests the add method
+	 */
 	@Test
 	public void testAdd() {
 		RWayTrie rwt = new RWayTrie();
@@ -32,6 +35,9 @@ public class RWayTrieTest {
 		assert(rwt.size() == 4);
 	}
 
+	/**
+	 * Tests the contains method
+	 */
 	@Test
 	public void testContains() {
 		RWayTrie rwt = new RWayTrie();
@@ -57,6 +63,9 @@ public class RWayTrieTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Tests the delete method
+	 */
 	@Test
 	public void testDelete() {
 		RWayTrie rwt = new RWayTrie();
@@ -80,6 +89,9 @@ public class RWayTrieTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Tests the words method
+	 */
 	@Test
 	public void testWords() {
 		RWayTrie rwt = new RWayTrie();
@@ -101,6 +113,9 @@ public class RWayTrieTest {
 		actual = ((List<String>) rwt.words()).size();
 	}
 
+	/**
+	 * Tests the wordWithPrefix method
+	 */
 	@Test
 	public void testWordWithPrefix() {
 		RWayTrie rwt = new RWayTrie();
@@ -123,6 +138,9 @@ public class RWayTrieTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Tests the size method
+	 */
 	@Test
 	public void testSize() {
 		RWayTrie rwt = new RWayTrie();

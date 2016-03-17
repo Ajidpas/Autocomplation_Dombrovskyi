@@ -6,6 +6,9 @@ import org.junit.Test;
 
 public class PrefixMatchesTest {
 
+	/**
+	 * Tests the add method
+	 */
 	@Test
 	public void testAdd() {
 		PrefixMatches pm = new PrefixMatches();
@@ -41,6 +44,9 @@ public class PrefixMatchesTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Tests the contains method
+	 */
 	@Test
 	public void testContains() {
 		PrefixMatches pm = new PrefixMatches();
@@ -62,6 +68,9 @@ public class PrefixMatchesTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Tests the delete method
+	 */
 	@Test
 	public void testDelete() {
 		PrefixMatches pm = new PrefixMatches();
@@ -89,6 +98,9 @@ public class PrefixMatchesTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Tests the size method
+	 */
 	@Test
 	public void testSize() {
 		PrefixMatches pm = new PrefixMatches();
@@ -119,6 +131,9 @@ public class PrefixMatchesTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Tests the wordsWithPrefix method
+	 */
 	@Test
 	public void testWordsWithPrefixStringInt() {
 		PrefixMatches pm = new PrefixMatches();
@@ -133,6 +148,9 @@ public class PrefixMatchesTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Tests the wordWithPrefix method
+	 */
 	@Test
 	public void testWordsWithPrefixString() {
 		PrefixMatches pm = new PrefixMatches();
