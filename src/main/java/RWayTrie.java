@@ -174,13 +174,13 @@ public class RWayTrie implements Trie {
 	}
 	
 	/**
-	 * Collects all words from existing tree 
+	 * Get all words from existing tree 
+	 * 
 	 * @param node node from which search starts 
 	 * @param word word 
 	 * @param result collection of words 
 	 */
 	private void collect(Node node, StringBuilder word, Queue<String> result) {
-		StringBuilder prefix = word;
 		if (node == null) {
 			return;
 		}

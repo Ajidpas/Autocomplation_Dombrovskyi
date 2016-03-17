@@ -9,22 +9,33 @@ public class PrefixMatchesTest {
 	@Test
 	public void testAdd() {
 		PrefixMatches pm = new PrefixMatches();
-		int expected = 1;
-		int actual = pm.add("word");
+		
+		// word's length should be more then 2
+		int expected = 0;
+		int actual = pm.add("wo");
+		assertEquals(expected, actual);
+		
+		// add one word
+		expected = 1;
+		actual = pm.add("word");
 		assertEquals(expected, actual);	
 		
+		// input the same words
 		expected = 0;
 		actual = pm.add("word", "word", "word");
 		assertEquals(expected, actual);	
 		
+		// input empty values 
 		expected = 0;
-		actual = pm.add("", "", "");
+		actual = pm.add("", "  ", "  ");
 		assertEquals(expected, actual);	
 		
+		// words amount
 		expected = 3;
 		actual = pm.add("wordA", "wordB", "wordC");
 		assertEquals(expected, actual);
 		
+		// words amount in array
 		expected = 3;
 		actual = pm.add(new String[]{"textA", "textB", "textC"});
 		assertEquals(expected, actual);
@@ -38,11 +49,13 @@ public class PrefixMatchesTest {
 		boolean actual = pm.contains("word");
 		assertEquals(expected, actual);
 		
-		pm.add("", "", "");
+		// check for spaces 
+		pm.add("", "   ", "	");
 		expected = false;
 		actual = pm.contains("");
 		assertEquals(expected, actual);
 		
+		// check with capitals 
 		pm.add(new String[]{"aaa", "aAa", "aAA"});
 		expected = false;
 		actual = pm.contains("AAA");
@@ -57,16 +70,19 @@ public class PrefixMatchesTest {
 		boolean actual = pm.delete("word");
 		assertEquals(expected, actual);
 		
+		// check for empty value
 		pm.add("");
 		expected = false;
 		actual = pm.delete("");
 		assertEquals(expected, actual);
 		
+		// ordinary case 
 		pm.add(new String[]{"one", "two", "three"});
 		expected = true;
 		actual = pm.delete("two");
 		assertEquals(expected, actual);
 		
+		// word with spaces
 		pm.add("        space        ");
 		expected = true;
 		actual = pm.delete("space");
@@ -81,16 +97,19 @@ public class PrefixMatchesTest {
 		int actual = pm.size();
 		assertEquals(expected, actual);
 		
+		// empty value
 		pm.add("");
 		expected = 1;
 		actual = pm.size();
 		assertEquals(expected, actual);
 		
+		// add and count
 		pm.add(new String[]{"two", "three", "four"});
 		expected = 4;
 		actual = pm.size();
 		assertEquals(expected, actual);
 		
+		// delete and count
 		pm.delete("one");
 		pm.delete("two");
 		pm.delete("three");
@@ -121,15 +140,12 @@ public class PrefixMatchesTest {
 		int expected = 1;
 		int actual = ((List<String>) pm.wordsWithPrefix("word", 1)).size();
 		assertEquals(expected, actual);
-		
 		expected = 2;
 		actual = ((List<String>) pm.wordsWithPrefix("word", 2)).size();
 		assertEquals(expected, actual);
-		
 		expected = 3;
 		actual = ((List<String>) pm.wordsWithPrefix("word", 3)).size();
 		assertEquals(expected, actual);
-		
 		expected = 4;
 		actual = ((List<String>) pm.wordsWithPrefix("word", 4)).size();
 		assertEquals(expected, actual);
