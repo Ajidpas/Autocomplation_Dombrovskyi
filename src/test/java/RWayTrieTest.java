@@ -4,6 +4,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+/**
+ * Tests for RWayTrieTest class
+ * @author Oleksandr_Dombrovsky
+ *
+ */
 public class RWayTrieTest {
 
 	/**

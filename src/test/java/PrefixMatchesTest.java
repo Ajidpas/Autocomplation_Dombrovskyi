@@ -1,10 +1,35 @@
 import static org.junit.Assert.assertEquals;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.InjectMocks;
+import org.mockito.runners.MockitoJUnitRunner;
+
+/**
+ * Tests for PrefixMatches class
+ * @author Oleksandr_Dombrovsky
+ *
+ */
+@RunWith(MockitoJUnitRunner.class)
 public class PrefixMatchesTest {
+	
+	/** mock object for Trie object */
+	@Mock
+	private Trie mockedTrie;
+	
+	/** inject mock object for PrefixMatches object */
+	@InjectMocks
+	private PrefixMatches mockedPrefixMatches;	
 
 	/**
 	 * Tests the add method
@@ -167,6 +192,77 @@ public class PrefixMatchesTest {
 		expected = 4;
 		actual = ((List<String>) pm.wordsWithPrefix("word", 4)).size();
 		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void wordsShouldNotBeCalledWithSize() {
+		// add method calling count should be the same as size
+		int size = fillVocabulary(mockedPrefixMatches);
+		verify(mockedTrie, times(size)).add(any(Tuple.class));
+		
+		// verify that calling size doesn't means tree traversal
+		mockedPrefixMatches.size();
+		verify(mockedTrie, never()).words();
+		
+		
+	}
+	
+	/**
+	 * For filling vocabulary tree only
+	 * 
+	 * @param pm PrefixMatches object
+	 * @return count of words was filled into the tree
+	 */
+	private static int fillVocabulary(PrefixMatches pm) {
+		int size = 0;
+		BufferedReader buffReader = null;
+		try {
+			FileReader fr = new FileReader("src\\main\\resources\\TextDemo.txt");
+			buffReader = new BufferedReader(fr);
+			String line = null;
+			while ((line = buffReader.readLine()) != null) {
+				String[] words = line.split(" ");
+				for (String word : words) {
+					if (!word.isEmpty()) {
+						word = trimWord(word);
+						pm.add(word);
+						size++;
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (buffReader != null) {
+				try {
+					buffReader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return size;
+	}
+	
+	/**
+	 * Trims word
+	 * 
+	 * @param word word might be trimmed 
+	 * @return clear word
+	 */
+	private static String trimWord(String word) {
+		StringBuilder trimedWord = new StringBuilder(word);
+		for (int i = 0; i < word.length(); i++) {
+			char c = word.charAt(i);
+			if (c < 64) {
+				trimedWord.deleteCharAt(0);
+			} else {
+				break;
+			}
+		}
+		return trimedWord.toString();
 	}
 
 }

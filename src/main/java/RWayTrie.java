@@ -1,10 +1,15 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * RWayTrie class 
+ * @author Oleksandr_Dombrovsky
+ *
+ */
 public class RWayTrie implements Trie {
 	
 	/** ascii length */
-	private static final int EXTENDED_ASCII = 256;
+	private static final int EXTENDED_ASCII = 128;
 	
 	/** trie size - amount of words */
 	private int size;
@@ -26,7 +31,6 @@ public class RWayTrie implements Trie {
 	 * @param tuple term-weight tuple
 	 */
 	public void add(Tuple tuple) {
-		// TODO: contains true false 
 		int weight = tuple.getWeight();
 		String term = tuple.getTerm();
 		if (!contains(term)) {
@@ -107,7 +111,6 @@ public class RWayTrie implements Trie {
 	 * @return true or false in the corresponding case
 	 */
 	public boolean delete(String word) {
-		// TODO wrong boolean value will be get
 		if (!contains(word)) {
 			return false;
 		}
@@ -174,25 +177,36 @@ public class RWayTrie implements Trie {
 	}
 	
 	/**
-	 * Get all words from existing tree 
+	 * Get all words from existing tree, breadth-first search
 	 * 
 	 * @param node node from which search starts 
 	 * @param word word 
 	 * @param result collection of words 
 	 */
 	private void collect(Node node, StringBuilder word, Queue<String> result) {
-		if (node == null) {
-			return;
-		}
-		if (node.weight != 0) {
-			result.add(word.toString());
-		}
-		for (int i = 0; i < EXTENDED_ASCII; i++) {
-			Node n = node.children[i];
-			if (n != null) {
-				word.append((char) i);
-				collect(n, word, result);
-				word.deleteCharAt(word.length() - 1);
+		Queue<Node> nodes = new LinkedList<Node>();
+		Queue<String> prefixes = new LinkedList<String>();
+		Node currentNode = null;
+		String currentPrefix = null;
+		nodes.add(node);
+		prefixes.add(word.toString());
+		while (!nodes.isEmpty()) {
+			currentNode = nodes.poll();
+			if (currentNode == null) {
+				break;
+			}
+			String prefix = prefixes.poll();
+			currentPrefix = prefix != null ? prefix : "";
+			if (currentNode.weight != 0) {
+				result.add(currentPrefix);
+			}
+			Node[] children = currentNode.children;
+			for (int i = 0; i < children.length; i++) {
+				Node currentChild = children[i];
+				if (currentChild != null) {
+					nodes.add(currentChild);
+					prefixes.add(currentPrefix + (char) i);
+				}
 			}
 		}
 	}

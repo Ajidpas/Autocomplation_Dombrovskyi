@@ -4,6 +4,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * PrefixMatches class 
+ * @author Oleksandr_Dombrovsky
+ *
+ */
 public class PrefixMatches {
 	
 	/** trie object */
