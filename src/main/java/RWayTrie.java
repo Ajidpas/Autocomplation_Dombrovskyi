@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -171,44 +172,13 @@ public class RWayTrie implements Trie {
 	 * @return list of words
 	 */
 	public Iterable<String> words() {
-		Queue<String> result = new LinkedList<String>();
-		collect(root, new StringBuilder(), result);
-		return result;
-	}
-	
-	/**
-	 * Get all words from existing tree, breadth-first search
-	 * 
-	 * @param node node from which search starts 
-	 * @param word word 
-	 * @param result collection of words 
-	 */
-	private void collect(Node node, StringBuilder word, Queue<String> result) {
-		Queue<Node> nodes = new LinkedList<Node>();
-		Queue<String> prefixes = new LinkedList<String>();
-		Node currentNode = null;
-		String currentPrefix = null;
-		nodes.add(node);
-		prefixes.add(word.toString());
-		while (!nodes.isEmpty()) {
-			currentNode = nodes.poll();
-			if (currentNode == null) {
-				break;
+		return new Iterable<String>() {
+
+			public Iterator iterator() {
+				return new TrieIterator(root);
 			}
-			String prefix = prefixes.poll();
-			currentPrefix = prefix != null ? prefix : "";
-			if (currentNode.weight != 0) {
-				result.add(currentPrefix);
-			}
-			Node[] children = currentNode.children;
-			for (int i = 0; i < children.length; i++) {
-				Node currentChild = children[i];
-				if (currentChild != null) {
-					nodes.add(currentChild);
-					prefixes.add(currentPrefix + (char) i);
-				}
-			}
-		}
+			
+		};
 	}
 
 	/**
@@ -218,12 +188,9 @@ public class RWayTrie implements Trie {
 	 * @return list of words
 	 */
 	public Iterable<String> wordWithPrefix(String pref) {
-		// TODO Auto-generated method stub
-		Queue<String> result = new LinkedList<String>();
 		Node currNode = root;
-		StringBuilder word = new StringBuilder();
+		final StringBuilder word = new StringBuilder();
 		for (int i = 0; i < pref.length(); i++) {
-			// TODO: match with pref and use collectAll 
 			char c = pref.charAt(i);
 			Node node = currNode.children[c];
 			if (node == null) {
@@ -232,8 +199,15 @@ public class RWayTrie implements Trie {
 			currNode = node;
 			word.append(c);
 		}
-		collect(currNode, word, result);
-		return result;
+		final Node node = currNode;
+		return new Iterable<String>() {
+
+			public Iterator<String> iterator() {
+				// TODO Auto-generated method stub
+				return new TrieIterator(node, word.toString());
+			}
+			
+		};
 	}
 
 	/**
@@ -253,16 +227,24 @@ public class RWayTrie implements Trie {
 	public static class Node {
 		
 		/** weight of word */
-		private int weight;
+		int weight;
 		
 		/** node children nods */
-		private Node[] children;
+		Node[] children;
 		
 		/** 
 		 * Constructor
 		 */
 		public Node() {
 			children = new Node[EXTENDED_ASCII];
+		}
+		
+		public int getWeight() {
+			return weight;
+		}
+		
+		public Node[] getChildren() {
+			return children;
 		}
 		
 	}

@@ -80,16 +80,14 @@ public class PrefixMatches {
 	 * @param k length distinguish 
 	 * @return all matched words
 	 */
-	public Iterable<String> wordsWithPrefix(String pref, int k) {
-		Queue<String> words = (Queue<String>) trie.wordWithPrefix(pref);
-		Iterator<String> it = words.iterator();
-		while (it.hasNext()) {
-			String word = (String) it.next();
-			if (word.length() > pref.length() + k - 1) {
-				it.remove();
+	public Iterable<String> wordsWithPrefix(final String pref, final int k) {
+		return new Iterable<String>() {
+
+			public Iterator<String> iterator() {
+				return new KIterator(trie.wordWithPrefix(pref), pref, k);
 			}
-		}
-		return words;
+			
+		};
 	}
 	
 	/**
