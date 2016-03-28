@@ -1,3 +1,6 @@
+package trie;
+
+import trie.treetraversal.Tuple;
 
 public interface Trie {
 	

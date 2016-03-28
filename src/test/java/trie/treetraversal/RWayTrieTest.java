@@ -1,3 +1,4 @@
+package trie.treetraversal;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -104,18 +105,18 @@ public class RWayTrieTest {
 		rwt.add(new Tuple("two", 3));
 		rwt.add(new Tuple("three", 3));
 		int expected = 3;
-		int actual = ((List<String>) rwt.words()).size();
+		int actual = rwt.size();
 		assertEquals(expected, actual);
 		
 		// check for spaces
 		rwt.add(new Tuple("", 0));
 		expected = 3;
-		actual = ((List<String>) rwt.words()).size();
+		actual = rwt.size();
 		
 		// check for wrong weight
 		rwt.add(new Tuple("", 5));
 		expected = 3;
-		actual = ((List<String>) rwt.words()).size();
+		actual = rwt.size();
 	}
 
 	/**
@@ -129,17 +130,17 @@ public class RWayTrieTest {
 		rwt.add(new Tuple("work", 4));
 		rwt.add(new Tuple("worry", 5));
 		rwt.add(new Tuple("happy", 5));
-		int expected = 4;
-		int actual = ((List<String>) rwt.wordWithPrefix("wor")).size();
+		int expected = 5;
+		int actual = rwt.size();
 		assertEquals(expected, actual);
 		
 		String expectedString = "happy";
-		String actualString = ((List<String>) rwt.wordWithPrefix("h")).get(0);
+		String actualString = rwt.wordWithPrefix("h").iterator().next();
 		assertEquals(expected, actual);
 		
 		// check for empty pattern
 		expected = 5;
-		actual = ((List<String>) rwt.wordWithPrefix("")).size();
+		actual = rwt.size();
 		assertEquals(expected, actual);
 	}
 

@@ -1,19 +1,23 @@
+package trie.treetraversal.matcher;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import trie.Trie;
+import trie.treetraversal.Tuple;
 
 /**
  * Tests for PrefixMatches class
@@ -163,13 +167,13 @@ public class PrefixMatchesTest {
 	public void testWordsWithPrefixStringInt() {
 		PrefixMatches pm = new PrefixMatches();
 		pm.add(new String[]{"word1", "word12", "word123", "word1234"});
-		int expected = 2;
-		int actual = ((List<String>) pm.wordsWithPrefix("word")).size();
+		int expected = 4;
+		int actual = pm.size();
 		assertEquals(expected, actual);
 		
 		pm.add(new String[]{"word3", "word4"});
-		expected = 4;
-		actual = ((List<String>) pm.wordsWithPrefix("word")).size();
+		expected = 6;
+		actual = pm.size();
 		assertEquals(expected, actual);
 	}
 
@@ -179,19 +183,12 @@ public class PrefixMatchesTest {
 	@Test
 	public void testWordsWithPrefixString() {
 		PrefixMatches pm = new PrefixMatches();
-		pm.add(new String[]{"word", "word2", "word33", "word444"});
-		int expected = 1;
-		int actual = ((List<String>) pm.wordsWithPrefix("word", 1)).size();
+		pm.add(new String[]{"word123"});
+		boolean expected = false;
+		boolean actual = pm.wordsWithPrefix("word", 1).iterator().hasNext();
 		assertEquals(expected, actual);
-		expected = 2;
-		actual = ((List<String>) pm.wordsWithPrefix("word", 2)).size();
-		assertEquals(expected, actual);
-		expected = 3;
-		actual = ((List<String>) pm.wordsWithPrefix("word", 3)).size();
-		assertEquals(expected, actual);
-		expected = 4;
-		actual = ((List<String>) pm.wordsWithPrefix("word", 4)).size();
-		assertEquals(expected, actual);
+		expected = true;
+		actual = pm.wordsWithPrefix("word", 3).iterator().hasNext();
 	}
 	
 	@Test

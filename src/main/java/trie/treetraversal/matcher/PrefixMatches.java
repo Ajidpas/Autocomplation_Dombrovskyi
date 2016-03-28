@@ -1,8 +1,13 @@
+package trie.treetraversal.matcher;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
+
+import trie.Trie;
+import trie.treetraversal.RWayTrie;
+import trie.treetraversal.Tuple;
 
 /**
  * PrefixMatches class 
